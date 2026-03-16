@@ -1,0 +1,77 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="LibraryApp.Views.AuthorsWindow"
+        Title="Управление авторами" Width="780" Height="520"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Кнопки -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
+            <Button Content="+ Добавить" Classes="primary"
+                    Margin="0,0,8,0" Click="Add_Click"/>
+            <Button x:Name="EditBtn" Content="Изменить" Classes="primary"
+                    Margin="0,0,8,0" IsEnabled="False" Click="Edit_Click"/>
+            <Button x:Name="DeleteBtn" Content="Удалить" Classes="danger"
+                    IsEnabled="False" Click="Delete_Click"/>
+        </StackPanel>
+
+        <!-- Список авторов -->
+        <DataGrid x:Name="AuthorsGrid" Grid.Row="1"
+                  SelectionChanged="AuthorsGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="160" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="140" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate}" Width="130" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Страна" Binding="{Binding Country}" Width="*" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Книг" Binding="{Binding Books.Count}" Width="70" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Форма редактирования -->
+        <Border Grid.Row="2" Background="#F0F4F8" BorderBrush="#DDDDDD"
+                BorderThickness="1" CornerRadius="4" Padding="12" Margin="0,8,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Фамилия *" Classes="label" Margin="0,0,4,0"/>
+                <TextBox x:Name="LastNameBox" Grid.Column="1" Margin="0,0,8,0"/>
+                <TextBlock Grid.Column="2" Text="Имя *" Classes="label" Margin="0,0,4,0"/>
+                <TextBox x:Name="FirstNameBox" Grid.Column="3" Margin="0,0,8,0"/>
+                <TextBlock Grid.Column="4" Text="Дата рожд." Classes="label" Margin="0,0,4,0"/>
+                <TextBox x:Name="BirthDateBox" Grid.Column="5" Margin="0,0,8,0"
+                         ToolTip.Tip="Формат: ДД.ММ.ГГГГ"/>
+                <TextBlock Grid.Column="6" Text="Страна" Classes="label" Margin="0,0,4,0"/>
+                <TextBox x:Name="CountryBox" Grid.Column="7" Margin="0,0,8,0"/>
+
+                <StackPanel Grid.Column="9" Orientation="Horizontal">
+                    <Button Content="Сохранить" Classes="primary"
+                            Width="90" Margin="0,0,4,0" Click="SaveAuthor_Click"/>
+                    <Button Content="Очистить" Classes="secondary"
+                            Width="80" Click="ClearForm_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <TextBlock x:Name="AuthorStatusText" Grid.Row="3" Margin="0,6,0,0"
+                   FontSize="12" Foreground="#555555"/>
+    </Grid>
+</Window>

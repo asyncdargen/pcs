@@ -1,0 +1,65 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="LibraryApp.Views.GenresWindow"
+        Title="Управление жанрами" Width="600" Height="440"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Кнопки -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
+            <Button Content="+ Добавить" Classes="primary"
+                    Margin="0,0,8,0" Click="Add_Click"/>
+            <Button x:Name="EditBtn" Content="Изменить" Classes="primary"
+                    Margin="0,0,8,0" IsEnabled="False" Click="Edit_Click"/>
+            <Button x:Name="DeleteBtn" Content="Удалить" Classes="danger"
+                    IsEnabled="False" Click="Delete_Click"/>
+        </StackPanel>
+
+        <!-- Список жанров -->
+        <DataGrid x:Name="GenresGrid" Grid.Row="1"
+                  SelectionChanged="GenresGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="180" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Книг" Binding="{Binding Books.Count}" Width="70" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Форма редактирования -->
+        <Border Grid.Row="2" Background="#F0F4F8" BorderBrush="#DDDDDD"
+                BorderThickness="1" CornerRadius="4" Padding="12" Margin="0,8,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Название *" Classes="label" Margin="0,0,4,0"/>
+                <TextBox x:Name="NameBox" Grid.Column="1" Margin="0,0,8,0"/>
+                <TextBlock Grid.Column="2" Text="Описание" Classes="label" Margin="0,0,4,0"/>
+                <TextBox x:Name="DescriptionBox" Grid.Column="3" Margin="0,0,8,0"/>
+
+                <StackPanel Grid.Column="4" Orientation="Horizontal">
+                    <Button Content="Сохранить" Classes="primary"
+                            Width="90" Margin="0,0,4,0" Click="SaveGenre_Click"/>
+                    <Button Content="Очистить" Classes="secondary"
+                            Width="80" Click="ClearForm_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <TextBlock x:Name="GenreStatusText" Grid.Row="3" Margin="0,6,0,0"
+                   FontSize="12" Foreground="#555555"/>
+    </Grid>
+</Window>

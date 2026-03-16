@@ -1,0 +1,118 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:LibraryApp.Converters"
+             x:Class="LibraryApp.App"
+             RequestedThemeVariant="Light">
+    <Application.Resources>
+        <conv:ZeroToRedConverter x:Key="ZeroToRed"/>
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme/>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+
+        <!-- Базовый шаблон для кнопок primary/danger/secondary -->
+        <Style Selector="Button.primary, Button.danger, Button.secondary">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding Content}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+        <!-- Primary -->
+        <Style Selector="Button.primary">
+            <Setter Property="Background" Value="#2C5F8A"/>
+        </Style>
+        <Style Selector="Button.primary:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="#1A4A6E"/>
+        </Style>
+        <Style Selector="Button.primary:pressed /template/ Border#border">
+            <Setter Property="Background" Value="#0F3050"/>
+        </Style>
+        <Style Selector="Button.primary:disabled /template/ Border#border">
+            <Setter Property="Background" Value="#AAAAAA"/>
+        </Style>
+
+        <!-- Danger -->
+        <Style Selector="Button.danger">
+            <Setter Property="Background" Value="#C0392B"/>
+        </Style>
+        <Style Selector="Button.danger:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="#A93226"/>
+        </Style>
+        <Style Selector="Button.danger:pressed /template/ Border#border">
+            <Setter Property="Background" Value="#8B2219"/>
+        </Style>
+        <Style Selector="Button.danger:disabled /template/ Border#border">
+            <Setter Property="Background" Value="#AAAAAA"/>
+        </Style>
+
+        <!-- Secondary -->
+        <Style Selector="Button.secondary">
+            <Setter Property="Background" Value="#6C757D"/>
+        </Style>
+        <Style Selector="Button.secondary:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="#5A6268"/>
+        </Style>
+        <Style Selector="Button.secondary:pressed /template/ Border#border">
+            <Setter Property="Background" Value="#4E555B"/>
+        </Style>
+        <Style Selector="Button.secondary:disabled /template/ Border#border">
+            <Setter Property="Background" Value="#AAAAAA"/>
+        </Style>
+
+        <!-- DataGrid -->
+        <Style Selector="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#E0E0E0"/>
+            <Setter Property="RowHeight" Value="30"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+        </Style>
+
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="Background" Value="#2C5F8A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="8,4"/>
+        </Style>
+
+        <!-- TextBox -->
+        <Style Selector="TextBox">
+            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+        <!-- ComboBox -->
+        <Style Selector="ComboBox">
+            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="MinHeight" Value="0"/>
+        </Style>
+
+        <!-- Label-like TextBlocks -->
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Application.Styles>
+</Application>

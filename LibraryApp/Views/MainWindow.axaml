@@ -1,0 +1,91 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="LibraryApp.Views.MainWindow"
+        Title="Библиотека — Каталог книг"
+        Width="1100" Height="680"
+        MinWidth="800" MinHeight="500"
+        WindowStartupLocation="CenterScreen">
+
+    <DockPanel>
+        <!-- Верхняя панель -->
+        <Border DockPanel.Dock="Top" Background="#2C5F8A" Padding="12,8">
+            <DockPanel>
+                <TextBlock Text="Библиотека" FontSize="20" FontWeight="Bold"
+                           Foreground="White" VerticalAlignment="Center"/>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                    <Button Content="Авторы" Classes="secondary"
+                            Margin="4,0" Click="AuthorsButton_Click"/>
+                    <Button Content="Жанры" Classes="secondary"
+                            Margin="4,0" Click="GenresButton_Click"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Панель фильтров и действий -->
+        <Border DockPanel.Dock="Top" Background="#F0F4F8" Padding="12,8"
+                BorderBrush="#DDDDDD" BorderThickness="0,0,0,1">
+            <DockPanel>
+                <!-- Кнопки CRUD -->
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Button Content="+ Добавить" Classes="primary"
+                            Margin="4,0" Click="AddBook_Click"/>
+                    <Button x:Name="EditButton" Content="Изменить" Classes="primary"
+                            Margin="4,0" IsEnabled="False" Click="EditBook_Click"/>
+                    <Button x:Name="DeleteButton" Content="Удалить" Classes="danger"
+                            Margin="4,0" IsEnabled="False" Click="DeleteBook_Click"/>
+                </StackPanel>
+
+                <!-- Фильтры -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Поиск:" Classes="label" Margin="0,0,4,0"/>
+                    <TextBox x:Name="SearchBox" Width="180" Margin="0,0,12,0"
+                             TextChanged="SearchBox_TextChanged"/>
+
+                    <TextBlock Text="Автор:" Classes="label" Margin="0,0,4,0"/>
+                    <ComboBox x:Name="AuthorFilter" Width="160" Margin="0,0,12,0"
+                              DisplayMemberBinding="{Binding FullName}"
+                              SelectionChanged="Filter_SelectionChanged"/>
+
+                    <TextBlock Text="Жанр:" Classes="label" Margin="0,0,4,0"/>
+                    <ComboBox x:Name="GenreFilter" Width="140" Margin="0,0,12,0"
+                              DisplayMemberBinding="{Binding Name}"
+                              SelectionChanged="Filter_SelectionChanged"/>
+
+                    <Button Content="Сбросить" Classes="secondary"
+                            Margin="4,0" Click="ResetFilters_Click"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Статусная строка -->
+        <Border DockPanel.Dock="Bottom" Background="#F0F4F8" Padding="12,4"
+                BorderBrush="#DDDDDD" BorderThickness="0,1,0,0">
+            <TextBlock x:Name="StatusText" FontSize="12" Foreground="#555555"/>
+        </Border>
+
+        <!-- Таблица книг -->
+        <DataGrid x:Name="BooksGrid" Margin="0"
+                  SelectionChanged="BooksGrid_SelectionChanged"
+                  DoubleTapped="BooksGrid_DoubleTapped">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Автор" Binding="{Binding Author.FullName}" Width="180" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Жанр" Binding="{Binding Genre.Name}" Width="130" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Год" Binding="{Binding PublishYear}" Width="70" IsReadOnly="True"/>
+                <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="150" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="В наличии" Width="90">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding QuantityInStock}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Foreground="{Binding QuantityInStock, Converter={StaticResource ZeroToRed}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>
