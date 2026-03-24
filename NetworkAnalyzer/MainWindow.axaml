@@ -1,0 +1,97 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="700"
+        x:Class="NetworkAnalyzer.MainWindow"
+        Title="Анализатор сетевых подключений"
+        Width="1100" Height="700"
+        MinWidth="900" MinHeight="600">
+
+    <TabControl Margin="8">
+        <!-- Вкладка: Сетевые интерфейсы -->
+        <TabItem Header="Сетевые интерфейсы">
+            <Grid RowDefinitions="Auto,*,Auto" Margin="8">
+                <Button x:Name="RefreshInterfacesBtn" Content="Обновить список" Grid.Row="0" Margin="0,0,0,8"
+                        Click="OnRefreshInterfaces"/>
+
+                <Grid Grid.Row="1" ColumnDefinitions="300,8,*">
+                    <ListBox x:Name="InterfacesList" Grid.Column="0"
+                             SelectionChanged="OnInterfaceSelected"/>
+
+                    <GridSplitter Grid.Column="1" Width="4" ResizeDirection="Columns"/>
+
+                    <Border Grid.Column="2" BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="12">
+                        <ScrollViewer>
+                            <TextBlock x:Name="InterfaceDetails" TextWrapping="Wrap"
+                                       Text="Выберите интерфейс из списка слева"/>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </Grid>
+        </TabItem>
+
+        <!-- Вкладка: Анализ URL -->
+        <TabItem Header="Анализ URL/URI">
+            <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="8">
+                <!-- Ввод URL -->
+                <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto" Margin="0,0,0,8">
+                    <TextBox x:Name="UrlInput" Watermark="Введите URL (например, https://example.com:8080/path?q=1#section)"
+                             Grid.Column="0" Margin="0,0,8,0"
+                             KeyDown="OnUrlInputKeyDown"/>
+                    <Button x:Name="AnalyzeUrlBtn" Content="Анализировать" Grid.Column="1" Margin="0,0,4,0"
+                            Click="OnAnalyzeUrl"/>
+                    <Button x:Name="PingBtn" Content="Ping" Grid.Column="2"
+                            Click="OnPingHost"/>
+                </Grid>
+
+                <!-- Результат парсинга URL -->
+                <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="12" Margin="0,0,0,8">
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="140,*">
+                        <TextBlock Text="Схема (протокол):" Grid.Row="0" Grid.Column="0" FontWeight="Bold" Margin="0,2"/>
+                        <TextBlock x:Name="UrlScheme" Grid.Row="0" Grid.Column="1" Margin="4,2"/>
+
+                        <TextBlock Text="Хост:" Grid.Row="1" Grid.Column="0" FontWeight="Bold" Margin="0,2"/>
+                        <TextBlock x:Name="UrlHost" Grid.Row="1" Grid.Column="1" Margin="4,2"/>
+
+                        <TextBlock Text="Порт:" Grid.Row="2" Grid.Column="0" FontWeight="Bold" Margin="0,2"/>
+                        <TextBlock x:Name="UrlPort" Grid.Row="2" Grid.Column="1" Margin="4,2"/>
+
+                        <TextBlock Text="Путь:" Grid.Row="3" Grid.Column="0" FontWeight="Bold" Margin="0,2"/>
+                        <TextBlock x:Name="UrlPath" Grid.Row="3" Grid.Column="1" Margin="4,2"/>
+
+                        <TextBlock Text="Параметры запроса:" Grid.Row="4" Grid.Column="0" FontWeight="Bold" Margin="0,2"/>
+                        <TextBlock x:Name="UrlQuery" Grid.Row="4" Grid.Column="1" Margin="4,2" TextWrapping="Wrap"/>
+
+                        <TextBlock Text="Фрагмент:" Grid.Row="5" Grid.Column="0" FontWeight="Bold" Margin="0,2"/>
+                        <TextBlock x:Name="UrlFragment" Grid.Row="5" Grid.Column="1" Margin="4,2"/>
+
+                        <TextBlock Text="Тип адреса:" Grid.Row="6" Grid.Column="0" FontWeight="Bold" Margin="0,2"/>
+                        <TextBlock x:Name="UrlAddressType" Grid.Row="6" Grid.Column="1" Margin="4,2"/>
+
+                        <TextBlock Text="DNS-информация:" Grid.Row="7" Grid.Column="0" FontWeight="Bold" Margin="0,2"/>
+                        <TextBlock x:Name="UrlDns" Grid.Row="7" Grid.Column="1" Margin="4,2" TextWrapping="Wrap"/>
+                    </Grid>
+                </Border>
+
+                <!-- Результаты (ping и т.д.) -->
+                <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="12" Margin="0,0,0,8">
+                    <ScrollViewer>
+                        <TextBlock x:Name="ResultsOutput" TextWrapping="Wrap"
+                                   Text="Результаты будут отображены здесь"/>
+                    </ScrollViewer>
+                </Border>
+
+                <!-- История URL -->
+                <Expander Grid.Row="3" Header="История проверенных URL" IsExpanded="False">
+                    <Grid RowDefinitions="*,Auto" MaxHeight="150">
+                        <ListBox x:Name="UrlHistoryList" Grid.Row="0"
+                                 DoubleTapped="OnHistoryItemDoubleTapped"/>
+                        <Button Content="Очистить историю" Grid.Row="1" Margin="0,4,0,0"
+                                Click="OnClearHistory" HorizontalAlignment="Right"/>
+                    </Grid>
+                </Expander>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</Window>
