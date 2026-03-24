@@ -1,0 +1,78 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+        x:Class="HttpMonitoring.MainWindow"
+        Title="HTTP Monitoring" Width="1000" Height="700">
+    <TabControl>
+        <TabItem Header="Сервер">
+            <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="10">
+                <StackPanel Orientation="Horizontal" Spacing="10" Grid.Row="0">
+                    <TextBlock Text="Порт:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="PortBox" Text="8080" Width="100"/>
+                    <Button x:Name="StartServerBtn" Content="Запустить сервер" Click="StartServer_Click"/>
+                    <Button x:Name="StopServerBtn" Content="Остановить" Click="StopServer_Click" IsEnabled="False"/>
+                    <TextBlock x:Name="ServerStatus" VerticalAlignment="Center" Foreground="Gray" Text="Остановлен"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="10" Grid.Row="1" Margin="0,10,0,0">
+                    <TextBlock Text="Фильтр:" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="FilterCombo" SelectedIndex="0" SelectionChanged="Filter_Changed">
+                        <ComboBoxItem Content="Все"/>
+                        <ComboBoxItem Content="GET"/>
+                        <ComboBoxItem Content="POST"/>
+                    </ComboBox>
+                    <TextBlock Text="Статус:" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="StatusFilterCombo" SelectedIndex="0" SelectionChanged="Filter_Changed">
+                        <ComboBoxItem Content="Все"/>
+                        <ComboBoxItem Content="200"/>
+                        <ComboBoxItem Content="400"/>
+                        <ComboBoxItem Content="404"/>
+                        <ComboBoxItem Content="500"/>
+                    </ComboBox>
+                    <Button Content="Сохранить логи" Click="SaveLogs_Click"/>
+                </StackPanel>
+
+                <TextBox x:Name="ServerLog" Grid.Row="2" Margin="0,10,0,0"
+                         IsReadOnly="True" AcceptsReturn="True"
+                         TextWrapping="Wrap" VerticalAlignment="Stretch"/>
+
+                <Grid ColumnDefinitions="*,*" Grid.Row="3" Margin="0,10,0,0" Height="200">
+                    <StackPanel Grid.Column="0" Spacing="5">
+                        <TextBlock Text="Статистика" FontWeight="Bold"/>
+                        <TextBlock x:Name="StatsText" Text="GET: 0 | POST: 0 | Среднее время: 0 мс"/>
+                        <TextBlock x:Name="UptimeText" Text="Время работы: 0 с"/>
+                    </StackPanel>
+                    <lvc:CartesianChart x:Name="LoadChart" Grid.Column="1"/>
+                </Grid>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Клиент">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" Margin="10">
+                <StackPanel Orientation="Horizontal" Spacing="10" Grid.Row="0">
+                    <TextBlock Text="URL:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="UrlBox" Text="https://jsonplaceholder.typicode.com/posts" Width="500"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="10" Grid.Row="1" Margin="0,10,0,0">
+                    <TextBlock Text="Метод:" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="MethodCombo" SelectedIndex="0">
+                        <ComboBoxItem Content="GET"/>
+                        <ComboBoxItem Content="POST"/>
+                    </ComboBox>
+                    <Button Content="Отправить запрос" Click="SendRequest_Click"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Margin="0,10,0,0">
+                    <TextBlock Text="Тело запроса (JSON):"/>
+                    <TextBox x:Name="RequestBodyBox" Height="100" AcceptsReturn="True"
+                             TextWrapping="Wrap" Text="{}{&quot;message&quot;: &quot;Hello&quot;}" />
+                </StackPanel>
+
+                <TextBlock Text="Ответ:" Grid.Row="3" Margin="0,10,0,0"/>
+                <TextBox x:Name="ResponseBox" Grid.Row="4" Margin="0,5,0,0"
+                         IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"/>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</Window>
